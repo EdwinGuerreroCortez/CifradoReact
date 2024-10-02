@@ -1,0 +1,21 @@
+.navbar {
+    background-color: #282c34;
+    padding: 1rem;
+  }
+  
+  .navbar-item {
+    color: white;
+    font-size: 1.2rem;
+    margin-right: 15px;
+  }
+  
+  .button.is-primary {
+    background-color: #61dafb;
+    border: none;
+    color: #fff;
+  }
+  
+  .button.is-primary:hover {
+    background-color: #21a1f1;
+  }
+  
