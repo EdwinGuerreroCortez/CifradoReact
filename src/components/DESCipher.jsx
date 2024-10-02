@@ -7,6 +7,9 @@ import Alert from '@mui/material/Alert';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Bar } from 'react-chartjs-2';
 import CryptoJS from 'crypto-js';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 
 // Importar los componentes necesarios de Chart.js
 import {
@@ -31,6 +34,8 @@ function DESCipher() {
     const [error, setError] = useState('');
     const [helpOpen, setHelpOpen] = useState(false);
     const [expanded, setExpanded] = useState(false); // Control para los acordeones
+    const [showPassword, setShowPassword] = useState(false);
+
 
     // Datos para el gráfico de Cifrado DES
     const data = {
@@ -38,7 +43,7 @@ function DESCipher() {
         datasets: [
             {
                 label: 'Cifrado DES',
-                data: [7, 5], // Asignamos valores de ejemplo
+                data: [5, 6], // Asignamos valores de ejemplo
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
             }
         ],
@@ -75,13 +80,13 @@ function DESCipher() {
     };
 
     const handleDecrypt = () => {
-        if (!encryptedMessage || !key) {
-            setError('Por favor, ingrese la clave correcta para descifrar.');
+        if (!message || !key) {  // Asegurarse de que el mensaje cifrado esté en el campo de mensaje
+            setError('Por favor, ingrese el mensaje cifrado y la clave correcta para descifrar.');
             return;
         }
 
         try {
-            const decrypted = CryptoJS.DES.decrypt(encryptedMessage, key).toString(CryptoJS.enc.Utf8);
+            const decrypted = CryptoJS.DES.decrypt(message, key).toString(CryptoJS.enc.Utf8);
 
             if (!decrypted) {
                 throw new Error('Clave incorrecta o mensaje no válido.');
@@ -94,6 +99,7 @@ function DESCipher() {
             setResult(''); // Vaciar el resultado si la clave es incorrecta
         }
     };
+
 
     const handleCopy = () => {
         navigator.clipboard.writeText(result).then(() => {
@@ -160,13 +166,25 @@ function DESCipher() {
 
                 <TextField
                     label="Clave Secreta"
-                    type="text"
+                    type={showPassword ? 'text' : 'password'}  // Cambia entre 'password' y 'text'
                     variant="outlined"
                     fullWidth
                     margin="normal"
                     value={key}
                     onChange={(e) => setKey(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => setShowPassword(!showPassword)}
+                                edge="end"
+                            >
+                                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                            </IconButton>
+                        ),
+                    }}
                 />
+
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
                     <Button variant="contained" color="primary" onClick={handleEncrypt}>
@@ -248,8 +266,7 @@ function DESCipher() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        El Cifrado DES (Data Encryption Standard) es un algoritmo de cifrado simétrico que utiliza una clave para cifrar y descifrar los datos.
-                    </Typography>
+                    El Cifrado DES (Data Encryption Standard) es un algoritmo de cifrado simétrico que usa una clave secreta de 56 bits para convertir texto plano en texto cifrado.                    </Typography>
                 </AccordionDetails>
             </Accordion>
 

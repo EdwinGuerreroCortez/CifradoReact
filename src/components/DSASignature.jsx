@@ -29,7 +29,7 @@ const DSASignature = () => {
     datasets: [
       {
         label: 'DSA',
-        data: [8, 7], // Valores de ejemplo para DSA
+        data: [4, 5], // Valores de ejemplo para DSA
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       }
     ],
@@ -37,12 +37,14 @@ const DSASignature = () => {
 
   // Opciones para el gráfico
   const options = {
-    responsive: true,
+    responsive: true, // Asegura que el gráfico se ajuste dinámicamente
+    maintainAspectRatio: false, // Para manejar manualmente la proporción del gráfico
     plugins: {
       legend: { position: 'top' },
       title: { display: true, text: 'Rendimiento y Facilidad de Implementación del DSA' },
     },
   };
+
 
   // Generar claves DSA en el frontend usando SubtleCrypto
   const generateKeys = async () => {
@@ -331,11 +333,12 @@ const DSASignature = () => {
           <Typography>Ver gráfico de Rendimiento y Facilidad</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Box sx={{ marginTop: 2, minHeight: '400px', height: 400, width: 600 }}>
+          <Box sx={{ width: '100%', height: { xs: '300px', sm: '400px', md: '500px' }, maxWidth: '100%' }}>
             <Typography variant="h6" gutterBottom>Rendimiento y Facilidad del DSA</Typography>
             <Bar data={data} options={options} />
           </Box>
         </AccordionDetails>
+
       </Accordion>
 
       {/* Acordeones para información adicional */}
@@ -345,7 +348,7 @@ const DSASignature = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            El DSA (Digital Signature Algorithm) es un estándar de firma digital que utiliza criptografía asimétrica para verificar la autenticidad de un mensaje.
+          El DSA (Algoritmo de Firma Digital) es un estándar de firma digital basado en criptografía asimétrica.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -356,7 +359,7 @@ const DSASignature = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            El DSA genera una firma digital usando una clave privada y permite verificarla con la clave pública correspondiente, asegurando que el mensaje no ha sido alterado.
+          El DSA utiliza dos claves: una clave privada para firmar y una clave pública para verificar. La clave privada genera una firma digital única para un mensaje, mientras que la clave pública permite verificar esa firma.
           </Typography>
         </AccordionDetails>
       </Accordion>

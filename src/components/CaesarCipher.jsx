@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Snackbar, IconButton, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { TextField, Button, Box, Typography, IconButton, Accordion, AccordionSummary, AccordionDetails, Snackbar, Alert } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -29,9 +29,11 @@ ChartJS.register(
 
 function CaesarCipher() {
     const [message, setMessage] = useState('');
-    const [shift, setShift] = useState(0);
+    const [shift, setShift] = useState('');
     const [result, setResult] = useState('');
     const [notificationVisible, setNotificationVisible] = useState(false);
+    const [errorVisible, setErrorVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [helpOpen, setHelpOpen] = useState(false);
     const [expanded, setExpanded] = useState(false); // Control de acordeones
 
@@ -41,7 +43,7 @@ function CaesarCipher() {
         datasets: [
             {
                 label: 'Cifrado César',
-                data: [8, 9], // Asignamos valores al rendimiento y facilidad de implementación
+                data: [10, 10], // Asignamos valores al rendimiento y facilidad de implementación
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
             }
         ],
@@ -61,7 +63,23 @@ function CaesarCipher() {
         },
     };
 
+    const validateFields = () => {
+        if (!message) {
+            setErrorMessage('El campo de mensaje no puede estar vacío.');
+            setErrorVisible(true);
+            return false;
+        }
+        if (!shift) {
+            setErrorMessage('Debe especificar un número de desplazamiento.');
+            setErrorVisible(true);
+            return false;
+        }
+        return true;
+    };
+
     const handleEncrypt = () => {
+        if (!validateFields()) return;
+
         const encrypted = message
             .split('')
             .map(char => {
@@ -75,6 +93,8 @@ function CaesarCipher() {
     };
 
     const handleDecrypt = () => {
+        if (!validateFields()) return;
+
         const decrypted = message
             .split('')
             .map(char => {
@@ -94,11 +114,37 @@ function CaesarCipher() {
     };
 
     const handleAccordionChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false); // Controlar la apertura y cierre de acordeones
+        setExpanded(isExpanded ? panel : false);
     };
+    
 
     return (
         <Box sx={{ maxWidth: 600, margin: 'auto', padding: 2, position: 'relative' }}>
+            
+            {/* Alerta de éxito (resultado copiado al portapapeles) con Alert dentro de Snackbar */}
+            <Snackbar
+                open={notificationVisible}
+                autoHideDuration={1000}
+                onClose={() => setNotificationVisible(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert severity="success" onClose={() => setNotificationVisible(false)}>
+                    Resultado copiado al portapapeles.
+                </Alert>
+            </Snackbar>
+
+            {/* Alerta de error (validación de campos) con Alert dentro de Snackbar */}
+            <Snackbar
+                open={errorVisible}
+                autoHideDuration={1000}
+                onClose={() => setErrorVisible(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert severity="error" onClose={() => setErrorVisible(false)}>
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
+
             {/* Botón de ayuda flotante en la esquina superior izquierda del formulario */}
             <ClickAwayListener onClickAway={() => setHelpOpen(false)}>
                 <div>
@@ -195,16 +241,8 @@ function CaesarCipher() {
                 )}
             </Box>
 
-            {/* Mostrar la alerta de éxito o error */}
-            <Snackbar
-                open={notificationVisible}
-                autoHideDuration={2000}
-                message="Resultado copiado al portapapeles"
-                onClose={() => setNotificationVisible(false)}
-            />
-
             {/* Acordeón desplegable para el gráfico */}
-            <Accordion>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Ver gráfico de Rendimiento y Facilidad</Typography>
                 </AccordionSummary>
@@ -217,7 +255,7 @@ function CaesarCipher() {
             </Accordion>
 
             {/* Acordeones de información fuera del cuadro de formulario */}
-            <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
+            <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>¿Qué es el Cifrado César?</Typography>
                 </AccordionSummary>
@@ -229,7 +267,7 @@ function CaesarCipher() {
                 </AccordionDetails>
             </Accordion>
 
-            <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
+            <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>¿Cómo se codifica y descifra?</Typography>
                 </AccordionSummary>

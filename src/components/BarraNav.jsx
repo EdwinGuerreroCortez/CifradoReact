@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import InfoIcon from '@mui/icons-material/Info';
 import LockIcon from '@mui/icons-material/Lock';
@@ -10,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 
 const BarraNav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -22,12 +22,8 @@ const BarraNav = () => {
     setAnchorEl(null);
   };
 
-  const handleMobileMenuClick = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
   };
 
   return (
@@ -46,53 +42,45 @@ const BarraNav = () => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={handleMobileMenuClick}
+                onClick={toggleDrawer(true)}
                 sx={{ ml: 2 }}
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
-                anchorEl={mobileMoreAnchorEl}
-                open={Boolean(mobileMoreAnchorEl)}
-                onClose={handleMobileMenuClose}
-                sx={{
-                  '& .MuiPaper-root': {
-                    backgroundColor: '#f5f5f5',
-                    width: '200px',
-                    position: 'fixed', // Cambiar a "fixed" para que el menú sea fijo sobre el contenido
-                    top: '50px', // Ajusta la distancia desde la parte superior para que no se solape con la barra de navegación
-                    right: '0', // Alinearlo a la derecha
-                    zIndex: theme.zIndex.modal + 1, // Asegura que esté sobre el contenido
-                  },
-                }}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+              <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
               >
-                <MenuItem onClick={handleMobileMenuClose} component={Link} to="/caesar">
-                  Cifrado César
-                </MenuItem>
-                <MenuItem onClick={handleMobileMenuClose} component={Link} to="/scytale">
-                  Cifrado Escítala
-                </MenuItem>
-                <MenuItem onClick={handleMobileMenuClose} component={Link} to="/des">
-                  Cifrado DES
-                </MenuItem>
-                <MenuItem onClick={handleMobileMenuClose} component={Link} to="/sha1">
-                  Cifrado SHA-1
-                </MenuItem>
-                <MenuItem onClick={handleMobileMenuClose} component={Link} to="/rsa-signature">
-                  Firma Digital DSA
-                </MenuItem>
-                <MenuItem onClick={handleMobileMenuClose} component={Link} to="/about">
-                  <InfoIcon sx={{ marginRight: '0.5rem' }} /> Acerca de
-                </MenuItem>
-              </Menu>
+                <Box
+                  sx={{ width: 250 }}
+                  role="presentation"
+                  onClick={toggleDrawer(false)}
+                  onKeyDown={toggleDrawer(false)}
+                >
+                  <List>
+                    <ListItem button component={Link} to="/caesar">
+                      <ListItemText primary="Cifrado César" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/scytale">
+                      <ListItemText primary="Cifrado Escítala" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/des">
+                      <ListItemText primary="Cifrado DES" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/sha1">
+                      <ListItemText primary="Cifrado SHA-1" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/rsa-signature">
+                      <ListItemText primary="Firma Digital DSA" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/about">
+                      <InfoIcon sx={{ marginRight: '0.5rem' }} /> 
+                      <ListItemText primary="Acerca de" />
+                    </ListItem>
+                  </List>
+                </Box>
+              </Drawer>
             </>
           ) : (
             <>
@@ -124,8 +112,8 @@ const BarraNav = () => {
                   '& .MuiPaper-root': {
                     backgroundColor: '#f5f5f5',
                     boxShadow: '0 3px 5px rgba(0,0,0,0.2)',
-                    position: 'absolute', // Mantiene el menú flotante sobre el contenido
-                    zIndex: theme.zIndex.modal, // Asegura que el menú esté sobre el contenido
+                    position: 'absolute',
+                    zIndex: theme.zIndex.modal,
                   },
                 }}
               >
@@ -159,7 +147,6 @@ const BarraNav = () => {
           )}
         </Toolbar>
       </AppBar>
-      {/* Añade un espacio para el contenido para que no sea cubierto por la AppBar en modo fijo */}
       <Toolbar />
     </>
   );

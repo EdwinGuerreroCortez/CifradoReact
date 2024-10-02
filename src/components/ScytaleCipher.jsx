@@ -44,7 +44,7 @@ function ScytaleCipher() {
         datasets: [
             {
                 label: 'Cifrado Escítala',
-                data: [7, 6], // Asignamos valores al rendimiento y facilidad de implementación
+                data: [8, 9], // Asignamos valores al rendimiento y facilidad de implementación
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
             }
         ],
@@ -245,7 +245,7 @@ function ScytaleCipher() {
             </Snackbar>
 
             {/* Acordeón desplegable para el gráfico */}
-            <Accordion>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Ver gráfico de Rendimiento y Facilidad</Typography>
                 </AccordionSummary>
@@ -258,19 +258,19 @@ function ScytaleCipher() {
             </Accordion>
 
             {/* Acordeones de información fuera del cuadro de formulario */}
-            <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
+            <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>¿Qué es el Cifrado Escítala?</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        El Cifrado Escítala es una técnica de cifrado antiguo que utiliza una vara cilíndrica y una tira de cuero para organizar el mensaje. 
-                        El mensaje se escribe en filas y se codifica al leerlo en columnas. 
+                    El Cifrado Escítala es una técnica de cifrado en la que un mensaje se escribe en 
+                    filas sobre una tira enrollada en un cilindro. El mensaje cifrado se obtiene desenrollando la tira y leyendo las columnas. 
                     </Typography>
                 </AccordionDetails>
             </Accordion>
 
-            <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
+            <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>¿Cómo se codifica y descifra?</Typography>
                 </AccordionSummary>

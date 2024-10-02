@@ -13,6 +13,7 @@ function App() {
     <Router>
       <LayoutEncabezado>
         <Routes>
+        <Route path="/" element={<CaesarCipher />} />
           <Route path="/caesar" element={<CaesarCipher />} />
           <Route path="/scytale" element={<ScytaleCipher />} />
           <Route path="/des" element={<DESCipher />} />

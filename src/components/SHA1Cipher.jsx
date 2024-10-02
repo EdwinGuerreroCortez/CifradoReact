@@ -35,7 +35,7 @@ function SHA1Cipher() {
         datasets: [
             {
                 label: 'Cifrado SHA-1',
-                data: [8, 6], // Asignamos valores de ejemplo
+                data: [7, 6], // Asignamos valores de ejemplo
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
             }
         ],
@@ -227,8 +227,7 @@ function SHA1Cipher() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        El SHA-1 (Secure Hash Algorithm 1) es una función criptográfica de resumen que toma una entrada y produce un resumen hash de 160 bits.
-                    </Typography>
+                    El SHA-1 (Secure Hash Algorithm 1) es una función de hash criptográfica que toma un mensaje y genera un valor hash de 160 bits (20 bytes).                    </Typography>
                 </AccordionDetails>
             </Accordion>
 
@@ -238,7 +237,7 @@ function SHA1Cipher() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        SHA-1 toma un mensaje de cualquier longitud y lo procesa en bloques de 512 bits, produciendo un hash único de 160 bits en 80 rondas de procesamiento.
+                    SHA-1 toma como entrada un mensaje de longitud variable y lo procesa en bloques de 512 bits, generando un hash único de 160 bits.
                     </Typography>
                 </AccordionDetails>
             </Accordion>
