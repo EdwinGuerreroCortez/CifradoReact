@@ -18,7 +18,7 @@ function Footer() {
                 © 2024 Cifrados. Todos los derechos reservados.
             </Typography>
             <Typography variant="body2">
-                Edwin Guerrero Cortez - Ingeniería en Desarrollo y Gestión de Software - 7° "B"
+                20221030 Edwin Guerrero Cortez, 20221018 Adair Hernández Escobar - Ingeniería en Desarrollo y Gestión de Software - 7° "B"
             </Typography>
         </Box>
     );
